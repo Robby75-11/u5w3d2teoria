@@ -1,5 +1,6 @@
 package it.epicode.u5w3d2teoria.dto;
 
+import it.epicode.u5w3d2teoria.enumeration.Role;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -13,4 +14,6 @@ public class UserDto {
     private String username;
     @NotEmpty(message = "la password non può essere vuota")
     private String password;
+
+    private Role role;
 }

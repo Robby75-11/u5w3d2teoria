@@ -46,7 +46,7 @@ public class StudenteService {
         studente.setDataNascita(studenteDto.getDataNascita());
         studente.setUniversita(universita);
 
-        sendMail("ralbergo7@gmail.com");
+//sendMail("ralbergo7@gmail.com");
 
         return studenteRepository.save(studente);
     }

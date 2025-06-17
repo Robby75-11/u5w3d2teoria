@@ -8,7 +8,14 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity //abilita la classe ad essere responsabile della sicurezza dei servizi
@@ -35,4 +42,24 @@ public class SecurityConfig {
 
         return httpSecurity.build();
      }
+
+     //crea un oggetto di tipo BcryptEncoder che verrà usato per codificare la password
+     @Bean
+     public PasswordEncoder passwordEncoder(){
+        return  new BCryptPasswordEncoder(10);
+     }
+
+    @Bean//permette di abilitare l'accesso al servizio anche da parte di server diversi da quello su cui risiede
+    //il servizio. In questo caso ho abilitato tutti i server ad accedere a tutti i servizi
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return (CorsConfigurationSource) source;
+    }
+
    }
